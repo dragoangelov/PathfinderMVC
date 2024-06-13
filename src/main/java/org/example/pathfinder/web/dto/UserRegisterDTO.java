@@ -1,11 +1,15 @@
 package org.example.pathfinder.web.dto;
 
 import jakarta.validation.constraints.*;
+import org.example.pathfinder.model.Level;
+
+import java.util.List;
 
 public class UserRegisterDTO {
 
-    @NotEmpty
-    @NotEmpty
+
+    @NotBlank
+    @Size(min = 2)
     private String username;
 
     @NotEmpty
@@ -23,6 +27,17 @@ public class UserRegisterDTO {
     private String password;
 
     private String confirmPassword;
+
+    private Level level;
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public UserRegisterDTO setLevel(Level level) {
+        this.level = level;
+        return this;
+    }
 
     public UserRegisterDTO() {
 
