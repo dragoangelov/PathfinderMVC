@@ -24,7 +24,10 @@ public class UserController {
 
     @GetMapping("users/register")
     public String viewRegister(Model model) {
-        model.addAttribute("registerData", new UserRegisterDTO());
+        if (!model.containsAttribute("registerData")) {
+            model.addAttribute("registerData", new UserRegisterDTO());
+        }
+
         model.addAttribute("levels", Level.values());
 
         return "register";
@@ -32,19 +35,23 @@ public class UserController {
 
     @PostMapping("users/register")
     public String doRegister(
-            UserRegisterDTO data,
+            @Valid UserRegisterDTO data,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes
+    ) {
 
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("registerData", data);
-//            redirectAttributes.addFlashAttribute
-//                    ("org.springframework.validation.BindingResult.UserRegisterDTO", bindingResult);
-//
-//            return "register";
-//        }
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("registerData", data);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
+
+            // handle errors
+            return "redirect:register";
+        }
+
         userService.register(data);
 
+        // register user
         return "redirect:/users/login";
     }
 
@@ -67,14 +74,12 @@ public class UserController {
         return modelAndView;
     }
 
-
     @GetMapping("users/profile")
     public ModelAndView profile() {
-
         ModelAndView modelAndView = new ModelAndView("profile");
+
         modelAndView.addObject("profileData", userService.getProfileData());
 
         return modelAndView;
     }
-
 }
