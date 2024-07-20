@@ -57,21 +57,16 @@ public class UserController {
         return modelAndView;
     }
 
-    @PostMapping("/users/login")
-    public String login(UserLoginDTO loginData) {
-        userService.login(loginData);
+    @GetMapping("users/login-error")
+    public ModelAndView viewLoginError() {
+        ModelAndView modelAndView = new ModelAndView("login");
 
+        modelAndView.addObject("showErrorMessage", true);
+        modelAndView.addObject("loginData", new UserLoginDTO());
 
-        return "redirect:/";
+        return modelAndView;
     }
 
-    @PostMapping("/users/logout")
-    public String logout() {
-        userService.logout();
-
-
-        return "redirect:/";
-    }
 
     @GetMapping("users/profile")
     public ModelAndView profile() {

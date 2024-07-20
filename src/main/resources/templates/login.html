@@ -1,5 +1,5 @@
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -23,10 +23,14 @@
 
         <div class="row g-3 align-items-center">
 
+
             <form
                     th:action="@{/users/login}"
                     th:method="POST"
                     th:object="${loginData}">
+
+                <div class="bg-danger" th:if="${showErrorMessage}" th:text="'Invalid username or password'"></div>
+
                 <div>
                     <div class="col-auto">
                         <label for="inputUsername" class="col-form-label ">Username</label>
