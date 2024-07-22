@@ -2,12 +2,16 @@ package org.example.pathfinder.web.dto;
 
 import jakarta.validation.constraints.*;
 import org.example.pathfinder.model.Level;
+import org.example.pathfinder.validation.annotation.UniqueEmail;
+import org.example.pathfinder.validation.annotation.UniqueUsername;
+import org.example.pathfinder.validation.annotation.ValidatePasswords;
 
-
+@ValidatePasswords
 public class UserRegisterDTO {
 
     @NotBlank
     @Size(min = 2, max = 200)
+    @UniqueUsername
     private String username;
 
     @NotEmpty
@@ -15,6 +19,7 @@ public class UserRegisterDTO {
     private String fullName;
 
     @Email(regexp = ".*@.*")
+    @UniqueEmail
     private String email;
 
     @Min(1)

@@ -1,5 +1,6 @@
 package org.example.pathfinder.web;
 
+import org.example.pathfinder.service.RouteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +11,18 @@ import java.util.Random;
 @Controller
 public class HomeController {
 
+    private final RouteService routeService;
+
+    public HomeController(RouteService routeService) {
+        this.routeService = routeService;
+    }
+
     @GetMapping("/")
     public String index(Model model) {
         double sofiaTemp = new Random().nextDouble();
 
         model.addAttribute("sofiaTemperature", sofiaTemp);
+        model.addAttribute("commentedRoute", routeService.getMostCommentedRoute());
 
 //        public ModelAndView index() {
 //        ModelAndView mnv = new ModelAndView();
